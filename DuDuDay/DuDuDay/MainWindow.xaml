@@ -1,0 +1,78 @@
+﻿<Window x:Class="DuDuDay.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="450" Width="800"
+        Loaded="Window_Loaded">
+    <!--
+    <Window.Resources>
+        // 오른쪽에서 슬라이드 인 애니메이션
+        <Storyboard x:Key="SlideInStoryboard">
+            <DoubleAnimation Storyboard.TargetName="SettingsPanelGrid"
+                             Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
+                             From="300" To="0" Duration="0:0:0.3" />
+        </Storyboard>
+
+        //오른쪽으로 슬라이드 아웃
+        <Storyboard x:Key="SlideOutStoryboard">
+            <DoubleAnimation Storyboard.TargetName="SettingsPanelGrid"
+                             Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
+                             From="0" To="300" Duration="0:0:0.3" />
+        </Storyboard>
+    </Window.Resources>
+    -->
+    <Grid>
+        <!-- D-Day 목록 -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="DdayList">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border CornerRadius="8" 
+                                Margin="10"
+                                Padding="10"
+                                Background="{Binding BackgroundColor}">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}" 
+                                           FontSize="16" 
+                                           FontWeight="Bold"
+                                           Foreground="{Binding FontColor}" />
+                                <TextBlock Text="{Binding Date, StringFormat=yyyy-MM-dd}" 
+                                           Foreground="{Binding FontColor}" />
+                                <TextBlock Text="{Binding DdayText}" 
+                                           FontSize="14" 
+                                           FontWeight="SemiBold"
+                                           Foreground="{Binding FontColor}" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        
+        
+        <!--
+        <StackPanel>
+            <Button Content="세팅" Click="OpenSettings_Click" Width="100"/>
+        </StackPanel>
+
+        
+        <Border x:Name="SettingsPanel"
+                Background="#AA000000"
+                Visibility="Collapsed">
+            <Grid x:Name="SettingsPanelGrid"
+                  HorizontalAlignment="Right"
+                  Width="300"
+                  Background="White">
+                <Grid.RenderTransform>
+                    <TranslateTransform X="300"/>
+                    
+                </Grid.RenderTransform>
+
+                <StackPanel Margin="20">
+                    <TextBlock Text="세팅 패널" FontSize="20" />
+                    <Button Content="닫기" Click="CloseSettings_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+        -->
+    </Grid>
+</Window>
