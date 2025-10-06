@@ -1,53 +1,12 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Runtime.InteropServices; // 
-using System.Windows.Interop; //
-using System.Windows.Forms;
+using DuDuDay_Core;
 
-namespace DuDuDay
+namespace DuDuDay_Sub
 {
     public partial class OverlayWindow : Window
     {
-        public OverlayWindow()
-        {
-            InitializeComponent();
-            Loaded += OverlayWindow_Loaded;
-        }
-
-        private void OverlayWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            // 모니터 크기 가져오기
-            var screen = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea;
-            this.Left = screen.Right - this.Width - 10; // 우측 여백 10px
-            this.Top = screen.Top + 10; // 상단 여백 10px
-
-            // Win32 핸들 얻기
-            var hwnd = new WindowInteropHelper(this).Handle;
-
-            // 항상 맨 아래로 (바탕화면 위, 다른 창 밑)
-            SetWindowPos(hwnd, HWND_BOTTOM, (int)this.Left, (int)this.Top,
-                         (int)this.Width, (int)this.Height,
-                         SWP_NOACTIVATE | SWP_SHOWWINDOW);
-        }
-
-        #region Win32 API
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern bool SetWindowPos(
-            IntPtr hWnd,
-            IntPtr hWndInsertAfter,
-            int X,
-            int Y,
-            int cx,
-            int cy,
-            uint uFlags);
-
-        private static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
-
-        private const uint SWP_NOACTIVATE = 0x0010;
-        private const uint SWP_SHOWWINDOW = 0x0040;
-        #endregion 
-        /*
         public OverlayWindow()
         {
             InitializeComponent();
@@ -109,6 +68,5 @@ namespace DuDuDay
                 DdayOverlayList.Children.Add(border);
             }
         }
-        */
     }
 }

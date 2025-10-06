@@ -20,19 +20,14 @@ namespace DuDuDay
     /// </summary>
     public partial class MainWindow : Window
     {
-        private OverlayWindow? overlay;
+        
         public MainWindow()
         {
             InitializeComponent();
             Console.WriteLine("디버깅 로그: Dday 로딩 시작");
             LoadDdays();
         }
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            overlay = new OverlayWindow();
-            overlay.Owner = this; // 메인윈도우와 연동
-            overlay.Show();
-        }
+        
         private void LoadDdays()
         {            
             string filePath = "ddays.json";

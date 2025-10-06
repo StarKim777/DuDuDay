@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 
-namespace DuDuDay
+namespace DuDuDay_Core
 {
     public static class DdayStorage
     {

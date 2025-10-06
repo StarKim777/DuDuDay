@@ -1,4 +1,4 @@
-﻿<Window x:Class="DuDuDay.OverlayWindow"
+﻿<Window x:Class="DuDuDay_Sub.OverlayWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="OverlayWindow" Height="300" Width="250"
@@ -6,7 +6,7 @@
         AllowsTransparency="True"
         Background="Transparent"
         Topmost="True"
-        ShowInTaskbar="False">
+        ShowInTaskbar="True"> <!--나중에 이거 false로-->
 
     <Border Background="#AA000000" CornerRadius="10" Padding="10" Margin="10">
         <StackPanel x:Name="DdayOverlayList" />
