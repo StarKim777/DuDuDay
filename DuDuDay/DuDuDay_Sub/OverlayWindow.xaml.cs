@@ -10,12 +10,17 @@ namespace DuDuDay_Sub
         public OverlayWindow()
         {
             InitializeComponent();
+
+
+
             LoadOverlayDdays();
+
+            
         }
 
         private void LoadOverlayDdays()
         {
-            var ddays = DdayStorage.Load("ddays.json");
+            var ddays = DdayStorage.Load();
 
             foreach (var item in ddays)
             {

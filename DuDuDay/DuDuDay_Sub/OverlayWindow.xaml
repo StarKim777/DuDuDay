@@ -2,10 +2,11 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="OverlayWindow" Height="300" Width="250"
+        Left="1200" Top="0"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
-        Topmost="True"
+        Topmost="False"
         ShowInTaskbar="True"> <!--나중에 이거 false로-->
 
     <Border Background="#AA000000" CornerRadius="10" Padding="10" Margin="10">

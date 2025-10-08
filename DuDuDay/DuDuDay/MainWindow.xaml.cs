@@ -12,6 +12,8 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
+using DuDuDay_Core;
 
 namespace DuDuDay
 {
@@ -27,17 +29,12 @@ namespace DuDuDay
             Console.WriteLine("디버깅 로그: Dday 로딩 시작");
             LoadDdays();
         }
-        
+
         private void LoadDdays()
-        {            
-            string filePath = "ddays.json";
-            if (!File.Exists(filePath))
-                return;
-            string json = File.ReadAllText(filePath);
-            var ddays = JsonSerializer.Deserialize<List<DdayItem>>(json) ?? new List<DdayItem>();
+        {
+            // Core 프로젝트의 DdayStorage를 사용
+            var ddays = DdayStorage.Load();
 
-
-            
             // 가공된 데이터 만들기
             var activeItems = new List<DdayViewModel>();
             foreach (var d in ddays)
@@ -60,6 +57,7 @@ namespace DuDuDay
 
             DdayList.ItemsSource = activeItems;
         }
+
         /*
         private void OpenSettings_Click(object sender, RoutedEventArgs e)
         {
