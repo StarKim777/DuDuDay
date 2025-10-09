@@ -28,7 +28,35 @@ namespace DuDuDay
             InitializeComponent();
             Console.WriteLine("디버깅 로그: Dday 로딩 시작");
             LoadDdays();
+
+            // 프로그램 시작 시 Sub에게 테스트 메시지 전송
+            try
+            {
+                var msg = new MessagePacket
+                {
+                    Command = "Test",
+                    Payload = "Hello from Main"
+                };
+                MainCommunicator.SendMessage(msg);
+                Console.WriteLine("디버깅 로그: test 메시지 전송 완료");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"디버깅 로그: 메시지 전송 실패 - {ex.Message}");
+            }
         }
+
+        private void OnDdayChanged()
+        {
+            // D-day 데이터가 변경되었을 때 Sub에게 갱신 요청
+            var msg = new MessagePacket
+            {
+                Command = "ReloadDdays"
+            };
+
+            MainCommunicator.SendMessage(msg);
+        }
+
 
         private void LoadDdays()
         {
