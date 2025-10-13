@@ -24,6 +24,7 @@ namespace DuDuDay
             }
             catch
             {
+                Console.WriteLine("[Main_MainCommunicator] 메세지 전송 오류");
                 // Sub 프로그램이 실행 중이 아닐 수도 있음
             }
         }

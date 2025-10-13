@@ -17,7 +17,7 @@ namespace DuDuDay_Core
             if (!Directory.Exists(FolderPath))
             {
                 Directory.CreateDirectory(FolderPath);
-                Debug.WriteLine($"[DdayStorage] Created folder: {FolderPath}");
+                Debug.WriteLine($"[DdayStorage] Created new folder: {FolderPath}");
             }
         }
 
@@ -29,8 +29,10 @@ namespace DuDuDay_Core
         {
             try
             {
+                /*
                 if (!Directory.Exists(FolderPath))
                     Directory.CreateDirectory(FolderPath);
+                */
 
                 var options = new JsonSerializerOptions { WriteIndented = true };
                 string json = JsonSerializer.Serialize(ddays, options);
@@ -55,14 +57,15 @@ namespace DuDuDay_Core
             {
                 if (string.IsNullOrWhiteSpace(path))
                     path = FilePath;
-
-                Console.WriteLine($"[DdayStorage] Loading from: {path}");
-
+                
                 if (!File.Exists(path))
                 {
-                    Console.WriteLine("[DdayStorage] File not found. Returning empty list.");
+                    Debug.WriteLine($"[DdayStorage] Created new file: {path}");
+                    File.WriteAllText(path, "[]"); // 새로 생성
                     return new List<DdayItem>();
                 }
+
+                Console.WriteLine($"[DdayStorage] Loading from: {path}");
 
                 string json = File.ReadAllText(path);
                 if (string.IsNullOrWhiteSpace(json))

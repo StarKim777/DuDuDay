@@ -22,28 +22,12 @@ namespace DuDuDay
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+        private List<DdayItem> ddays = new List<DdayItem>();
         public MainWindow()
         {
-            InitializeComponent();
-            Console.WriteLine("디버깅 로그: Dday 로딩 시작");
+            Console.WriteLine("[Main] 디버깅 로그: Dday 로딩 시작");
+            InitializeComponent();          
             LoadDdays();
-
-            // 프로그램 시작 시 Sub에게 테스트 메시지 전송
-            try
-            {
-                var msg = new MessagePacket
-                {
-                    Command = "Test",
-                    Payload = "Hello from Main"
-                };
-                MainCommunicator.SendMessage(msg);
-                Console.WriteLine("디버깅 로그: test 메시지 전송 완료");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"디버깅 로그: 메시지 전송 실패 - {ex.Message}");
-            }
         }
 
         private void OnDdayChanged()
@@ -60,6 +44,9 @@ namespace DuDuDay
 
         private void LoadDdays()
         {
+            ddays = DdayStorage.Load();
+            DdayList.ItemsSource = ddays; // 모든 아이템 표시
+            /*
             // Core 프로젝트의 DdayStorage를 사용
             var ddays = DdayStorage.Load();
 
@@ -67,8 +54,6 @@ namespace DuDuDay
             var activeItems = new List<DdayViewModel>();
             foreach (var d in ddays)
             {
-                if (!d.IsActive) continue;
-
                 int diff = (d.Date - DateTime.Today).Days;
                 string ddayText = diff == 0 ? "D-Day" :
                                   diff > 0 ? $"D-{diff}" : $"D+{Math.Abs(diff)}";
@@ -83,7 +68,24 @@ namespace DuDuDay
                 });
             }
 
-            DdayList.ItemsSource = activeItems;
+            DdayList.ItemsSource = activeItems;*/
+
+        }
+
+        private void ToggleActive(object sender, RoutedEventArgs e)
+        {
+            if (sender is CheckBox chk && chk.DataContext is DdayItem item)
+            {
+                item.IsActive = chk.IsChecked == true;
+
+                // 저장
+                DdayStorage.Save(ddays);
+
+                // Sub프로그램으로 알림 전송
+                OnDdayChanged();
+
+                Console.WriteLine($"[Main] {item.Name} IsActive={item.IsActive}");
+            }
         }
 
         /*
@@ -104,26 +106,5 @@ namespace DuDuDay
             sb.Begin();
         }
         */
-    }
-    // JSON 데이터 구조
-    public class DdayItem
-    {
-        public string Name { get; set; } = string.Empty;
-        public DateTime Date { get; set; }
-        public bool IsActive { get; set; }
-        public string BackgroundColor { get; set; } = "#FFFFFF";
-        public string FontColor { get; set; } = "#000000";
-    }
-
-    // UI 바인딩용 ViewModel
-    public class DdayViewModel
-    {
-        public string Name { get; set; } = string.Empty;
-        public DateTime Date { get; set; }
-        public string DdayText { get; set; } = string.Empty;
-        public System.Windows.Media.Brush BackgroundColor { get; set; }
-        public System.Windows.Media.Brush FontColor { get; set; }
-    }
-
-
+    } 
 }

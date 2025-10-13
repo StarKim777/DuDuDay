@@ -10,42 +10,40 @@ namespace DuDuDay_Sub
         private readonly SubCommunicator communicator = new();
         public OverlayWindow()
         {
+            Console.WriteLine("[Sub] 디버그 시작:");
             InitializeComponent();
             LoadOverlayDdays();
-            Console.WriteLine("DuDuDay_Sub 디버그 시작:");
 
-            //communicator.OnMessageReceived += HandleMessage;
-            //communicator.StartListening();
-
-            // communicator 초기화 및 이벤트 등록
-            communicator = new SubCommunicator();
             communicator.OnMessageReceived += HandleMessage;
             communicator.StartListening();
+
+            // communicator 초기화 및 이벤트 등록
+            // communicator = new SubCommunicator();
+            // communicator.OnMessageReceived += HandleMessage;
+            // communicator.StartListening();
         }
-        /*
+        
         private void HandleMessage(DuDuDay_Core.MessagePacket msg)
         {
             Dispatcher.Invoke(() =>
             {
-                if (msg.Command == "ReloadDdays")
+                Console.WriteLine($"[Sub] 메시지 수신: {msg.Command} / {msg.Payload}");
+                if (msg.Command == "ReloadDdays") // UI 리로드
                 {
                     DdayOverlayList.Children.Clear();
                     LoadOverlayDdays();
                 }
+                else if (msg.Command == "Test") // 테스트용 동작: "Test" 메시지 받으면 콘솔에 로그 남김
+                {
+                    Console.WriteLine("[Sub] Main으로부터 테스트 메시지 수신 완료!");
+                }
+                else
+                {
+                    Console.WriteLine("[Sub] 메세지에 할당된 동작 없음.");
+                }
             });
         }
-        */
-        private void HandleMessage(MessagePacket msg)
-        {
-            Console.WriteLine($"[Sub] 메시지 수신: {msg.Command} / {msg.Payload}");
-
-            // 테스트용 동작: "Test" 메시지 받으면 콘솔에 로그 남김
-            if (msg.Command == "Test")
-            {
-                Console.WriteLine("[Sub] Main으로부터 테스트 메시지 수신 완료!");
-            }
-        }
-
+        
         private void LoadOverlayDdays()
         {
             var ddays = DdayStorage.Load();
