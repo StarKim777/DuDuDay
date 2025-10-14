@@ -1,94 +1,82 @@
 ﻿<Window x:Class="DuDuDay.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="DuDuDay" Height="450" Width="400">
-    
-    <!--
-    <Window.Resources>
-        // 오른쪽에서 슬라이드 인 애니메이션
-        <Storyboard x:Key="SlideInStoryboard">
-            <DoubleAnimation Storyboard.TargetName="SettingsPanelGrid"
-                             Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
-                             From="300" To="0" Duration="0:0:0.3" />
-        </Storyboard>
+        Title="DuDuDay"
+        Height="500"
+        Width="420"
+        Background="#FFF8F8F8">
 
-        //오른쪽으로 슬라이드 아웃
-        <Storyboard x:Key="SlideOutStoryboard">
-            <DoubleAnimation Storyboard.TargetName="SettingsPanelGrid"
-                             Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
-                             From="0" To="300" Duration="0:0:0.3" />
-        </Storyboard>
+    <Window.Resources>
+        <Style x:Key="SwitchToggleStyle" TargetType="CheckBox">
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Grid>
+                            <Border x:Name="SwitchBackground"
+                                    Width="50"
+                                    Height="25"
+                                    CornerRadius="12.5"
+                                    Background="#CCC"
+                                    SnapsToDevicePixels="True"/>
+                            <Ellipse x:Name="SwitchThumb"
+                                     Width="21"
+                                     Height="21"
+                                     Fill="White"
+                                     Margin="2"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="SwitchBackground" Property="Background" Value="#4CAF50"/>
+                                <Setter TargetName="SwitchThumb" Property="HorizontalAlignment" Value="Right"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="SwitchBackground" Property="Background" Value="#AAA"/>
+                                <Setter TargetName="SwitchThumb" Property="Fill" Value="#EEE"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
-    -->
-    <Grid Margin="10">
-        <ListView x:Name="DdayList" ItemsSource="{Binding}" AlternationCount="2">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="5">
-                        <TextBlock Text="{Binding Name}" Width="150" VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding Date, StringFormat={}{0:yyyy-MM-dd}}" Width="100" VerticalAlignment="Center"/>
-                        <CheckBox IsChecked="{Binding IsActive}" 
-                                  Checked="ToggleActive" 
-                                  Unchecked="ToggleActive"
-                                  VerticalAlignment="Center"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        
-        
-        <!-- D-Day 목록
+
+    <Grid Margin="15">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <ItemsControl x:Name="DdayList">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border CornerRadius="8" 
-                                Margin="10"
+                        <Border CornerRadius="10"
+                                Margin="6"
                                 Padding="10"
+                                BorderBrush="#DDD"
+                                BorderThickness="1"
                                 Background="{Binding BackgroundColor}">
-                            <StackPanel>
-                                <TextBlock Text="{Binding Name}" 
-                                           FontSize="16" 
-                                           FontWeight="Bold"
-                                           Foreground="{Binding FontColor}" />
-                                <TextBlock Text="{Binding Date, StringFormat=yyyy-MM-dd}" 
-                                           Foreground="{Binding FontColor}" />
-                                <TextBlock Text="{Binding DdayText}" 
-                                           FontSize="14" 
-                                           FontWeight="SemiBold"
-                                           Foreground="{Binding FontColor}" />
-                            </StackPanel>
+                            <DockPanel VerticalAlignment="Center">
+                                <StackPanel DockPanel.Dock="Left">
+                                    <TextBlock Text="{Binding Name}"
+                                               FontSize="16"
+                                               FontWeight="Bold"
+                                               Foreground="{Binding FontColor}"/>
+                                    <TextBlock Text="{Binding Date, StringFormat=yyyy-MM-dd}"
+                                               Foreground="{Binding FontColor}"
+                                               FontSize="13"/>
+                                </StackPanel>
+
+                                <CheckBox DockPanel.Dock="Right"
+                                          IsChecked="{Binding IsActive}"
+                                          Style="{StaticResource SwitchToggleStyle}"
+                                          Margin="10,0,0,0"
+                                          Checked="ToggleActive"
+                                          Unchecked="ToggleActive"/>
+                            </DockPanel>
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-        </ScrollViewer>  -->
-        
-        
-        <!--
-        <StackPanel>
-            <Button Content="세팅" Click="OpenSettings_Click" Width="100"/>
-        </StackPanel>
-
-        
-        <Border x:Name="SettingsPanel"
-                Background="#AA000000"
-                Visibility="Collapsed">
-            <Grid x:Name="SettingsPanelGrid"
-                  HorizontalAlignment="Right"
-                  Width="300"
-                  Background="White">
-                <Grid.RenderTransform>
-                    <TranslateTransform X="300"/>
-                    
-                </Grid.RenderTransform>
-
-                <StackPanel Margin="20">
-                    <TextBlock Text="세팅 패널" FontSize="20" />
-                    <Button Content="닫기" Click="CloseSettings_Click"/>
-                </StackPanel>
-            </Grid>
-        </Border>
-        -->
+        </ScrollViewer>
     </Grid>
 </Window>

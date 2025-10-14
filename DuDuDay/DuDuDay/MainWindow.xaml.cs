@@ -45,40 +45,43 @@ namespace DuDuDay
         private void LoadDdays()
         {
             ddays = DdayStorage.Load();
-            DdayList.ItemsSource = ddays; // 모든 아이템 표시
-            /*
-            // Core 프로젝트의 DdayStorage를 사용
-            var ddays = DdayStorage.Load();
 
-            // 가공된 데이터 만들기
-            var activeItems = new List<DdayViewModel>();
+            var brushConverter = new BrushConverter();
+            var viewModels = new List<DdayViewModel>();
+
             foreach (var d in ddays)
             {
                 int diff = (d.Date - DateTime.Today).Days;
                 string ddayText = diff == 0 ? "D-Day" :
-                                  diff > 0 ? $"D-{diff}" : $"D+{Math.Abs(diff)}";
+                                  diff > 0 ? $"D-{diff}" :
+                                  $"D+{Math.Abs(diff)}";
 
-                activeItems.Add(new DdayViewModel
+                viewModels.Add(new DdayViewModel
                 {
                     Name = d.Name,
                     Date = d.Date,
-                    BackgroundColor = (System.Windows.Media.Brush)new System.Windows.Media.BrushConverter().ConvertFromString(d.BackgroundColor),
-                    FontColor = (System.Windows.Media.Brush)new System.Windows.Media.BrushConverter().ConvertFromString(d.FontColor),
-                    DdayText = ddayText
+                    DdayText = ddayText,
+                    IsActive = d.IsActive,
+                    BackgroundColor = (Brush)brushConverter.ConvertFromString(d.BackgroundColor),
+                    FontColor = (Brush)brushConverter.ConvertFromString(d.FontColor)
                 });
             }
 
-            DdayList.ItemsSource = activeItems;*/
-
+            DdayList.ItemsSource = viewModels;
         }
 
         private void ToggleActive(object sender, RoutedEventArgs e)
         {
-            if (sender is CheckBox chk && chk.DataContext is DdayItem item)
+            if (sender is CheckBox chk && chk.DataContext is DdayViewModel vm)
             {
-                item.IsActive = chk.IsChecked == true;
+                // ViewModel의 IsActive 변경
+                vm.IsActive = chk.IsChecked == true;
 
-                // 저장
+                // 원본 DdayItem도 동기화
+                var item = ddays.Find(x => x.Name == vm.Name && x.Date == vm.Date);
+                if (item != null)
+                    item.IsActive = vm.IsActive;
+
                 DdayStorage.Save(ddays);
 
                 // Sub프로그램으로 알림 전송
